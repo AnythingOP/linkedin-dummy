@@ -8,22 +8,14 @@ import userRoutes from './routes/userRoutes.js';
 
 dotenv.config();
 
-const app = express();
+const app = express(); // This line should only appear once
 
 // Enable All CORS Requests
 app.use(cors());
 
 app.use(express.json());
 
-// server/server.js
-
-// ... other imports
-
-const app = express();
-app.use(cors());
-app.use(express.json());
-
-// START: ADD THIS DEBUGGING CODE
+// Add the debug route (you can remove this later if you want)
 app.get('/debug-connection', (req, res) => {
     const connectionState = mongoose.connection.readyState;
     // 0 = disconnected, 1 = connected, 2 = connecting, 3 = disconnecting
@@ -34,10 +26,6 @@ app.get('/debug-connection', (req, res) => {
         port: mongoose.connection.port
     });
 });
-// END: ADD THIS DEBUGGING CODE
-
-mongoose.connect(process.env.MONGO_URI)
-// ... rest of the file
 
 mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log('MongoDB connected successfully'))
