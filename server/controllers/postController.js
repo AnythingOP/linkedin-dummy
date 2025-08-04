@@ -13,6 +13,7 @@ export const createPost = async (req, res) => {
         await post.populate('author', 'name profilePicture');
         res.status(201).json(post);
     } catch (err) {
+        console.error(err); // ADDED THIS LINE
         res.status(500).send('Server Error');
     }
 };
@@ -28,6 +29,7 @@ export const getAllPosts = async (req, res) => {
             .sort({ createdAt: -1 });
         res.json(posts);
     } catch (err) {
+        console.error(err); // ADDED THIS LINE
         res.status(500).send('Server Error');
     }
 };
@@ -43,6 +45,7 @@ export const getPostsByUserId = async (req, res) => {
             .sort({ createdAt: -1 });
         res.json(posts);
     } catch (err) {
+        console.error(err); // ADDED THIS LINE
         res.status(500).send('Server Error');
     }
 };
@@ -52,17 +55,15 @@ export const likePost = async (req, res) => {
         const post = await Post.findById(req.params.id);
         if (!post) return res.status(404).json({ msg: 'Post not found' });
 
-        // Check if the post has already been liked by this user
         if (post.likes.includes(req.user.id)) {
-            // Unlike the post
             post.likes = post.likes.filter(userId => userId.toString() !== req.user.id.toString());
         } else {
-            // Like the post
             post.likes.push(req.user.id);
         }
         await post.save();
         res.json(post.likes);
     } catch (err) {
+        console.error(err); // ADDED THIS LINE
         res.status(500).send('Server Error');
     }
 };
@@ -80,7 +81,6 @@ export const addComment = async (req, res) => {
         });
 
         const comment = await newComment.save();
-        
         post.comments.push(comment._id);
         await post.save();
         
@@ -88,6 +88,7 @@ export const addComment = async (req, res) => {
 
         res.status(201).json(comment);
     } catch (err) {
+        console.error(err); // ADDED THIS LINE
         res.status(500).send('Server Error');
     }
 };
@@ -99,6 +100,7 @@ export const getCommentsForPost = async (req, res) => {
             .sort({ createdAt: 'asc' });
         res.json(comments);
     } catch (err) {
+        console.error(err); // ADDED THIS LINE
         res.status(500).send('Server Error');
     }
 };
