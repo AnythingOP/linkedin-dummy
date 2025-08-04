@@ -22,8 +22,10 @@ const CreatePostModal = ({ onClose, onPostCreated }) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if (text.trim() === '' && !image) {
-            return toast.error("Post cannot be empty!");
+        
+        // THIS IS THE FIX: We now check if text is empty, regardless of the image.
+        if (text.trim() === '') {
+            return toast.error("Post text cannot be empty!");
         }
 
         const toastId = toast.loading('Creating post...');
@@ -44,7 +46,7 @@ const CreatePostModal = ({ onClose, onPostCreated }) => {
             });
 
             toast.success('Post created successfully!', { id: toastId });
-            onPostCreated(); // This tells the HomePage to refresh
+            onPostCreated();
         } catch (err) {
             toast.error('Failed to create post.', { id: toastId });
             console.error(err);
