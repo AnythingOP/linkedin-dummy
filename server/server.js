@@ -8,17 +8,14 @@ import userRoutes from './routes/userRoutes.js';
 
 dotenv.config();
 
-const app = express(); // This line should only appear once
+const app = express();
 
-// Enable All CORS Requests
 app.use(cors());
-
 app.use(express.json());
 
-// Add the debug route (you can remove this later if you want)
+// This is the debug route we added earlier. You can keep it for now.
 app.get('/debug-connection', (req, res) => {
     const connectionState = mongoose.connection.readyState;
-    // 0 = disconnected, 1 = connected, 2 = connecting, 3 = disconnecting
     res.json({
         state: connectionState,
         dbName: mongoose.connection.name,
