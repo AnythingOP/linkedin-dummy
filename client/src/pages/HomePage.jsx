@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 
 const API_URL = import.meta.env.VITE_API_URL;
 const CLOUDINARY_UPLOAD_PRESET = 'ciaan_preset';
-const CLOUDINARY_CLOUD_NAME = 'dbd736mdi';
+const CLOUDINARY_CLOUD_NAME = 'your_cloud_name';
 
 const HomePage = () => {
     const [posts, setPosts] = useState([]);
@@ -41,6 +41,10 @@ const HomePage = () => {
             return;
         }
 
+        if (text.trim() === '' && !image) {
+            return toast.error("Post cannot be empty!");
+        }
+
         const toastId = toast.loading('Creating post...');
         let imageUrl = '';
 
@@ -61,6 +65,7 @@ const HomePage = () => {
             toast.success('Post created successfully!', { id: toastId });
             setText('');
             setImage(null);
+            document.getElementById('image-upload-input').value = null; // Clear file input
             fetchPosts();
         } catch (err) {
             toast.error('Failed to create post.', { id: toastId });
@@ -73,9 +78,15 @@ const HomePage = () => {
             <h1 className="text-3xl font-bold mb-4">Home Feed</h1>
             {token && (
                 <form onSubmit={handlePostSubmit} className="mb-6 bg-white dark:bg-gray-900 p-4 rounded-lg shadow-md">
-                    <textarea /* ... */ ></textarea>
+                    <textarea 
+                        className="w-full p-2 border rounded dark:bg-gray-700 dark:border-gray-600"
+                        rows="3"
+                        placeholder="What's on your mind?"
+                        value={text}
+                        onChange={(e) => setText(e.target.value)}
+                    ></textarea>
                     <div className="flex justify-between items-center mt-2">
-                        <input type="file" accept="image/*" onChange={(e) => setImage(e.target.files[0])} />
+                        <input id="image-upload-input" type="file" accept="image/*" onChange={(e) => setImage(e.target.files[0])} />
                         <button type="submit" className="bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-700">Post</button>
                     </div>
                 </form>
