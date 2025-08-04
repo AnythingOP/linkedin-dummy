@@ -9,6 +9,7 @@ export const getUserProfile = async (req, res) => {
         if (!user) return res.status(404).json({ msg: 'User not found' });
         res.json(user);
     } catch (err) {
+        console.error(err.message);
         res.status(500).send('Server Error');
     }
 };
@@ -37,6 +38,7 @@ export const updateUserProfile = async (req, res) => {
             res.status(404).json({ msg: 'User not found' });
         }
     } catch (err) {
+        console.error(err.message);
         res.status(500).send('Server Error');
     }
 };
@@ -57,6 +59,28 @@ export const changePassword = async (req, res) => {
         
         res.json({ msg: 'Password updated successfully' });
     } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server Error');
+    }
+};
+
+// @desc    Search for users by name
+// @route   GET /api/users/search?q=...
+export const searchUsers = async (req, res) => {
+    const keyword = req.query.q
+        ? {
+              name: {
+                  $regex: req.query.q,
+                  $options: 'i', // case-insensitive
+              },
+          }
+        : {};
+    
+    try {
+        const users = await User.find(keyword).select('-password').limit(10);
+        res.json(users);
+    } catch (err) {
+        console.error(err.message);
         res.status(500).send('Server Error');
     }
 };

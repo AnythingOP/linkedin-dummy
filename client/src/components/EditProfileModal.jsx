@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import toast from 'react-hot-toast';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -10,17 +11,19 @@ const EditProfileModal = ({ user, onClose, onProfileUpdate }) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        const toastId = toast.loading('Updating profile...');
         try {
             const res = await axios.put(
                 `${API_URL}/api/users/profile`,
                 { name, bio },
                 { headers: { Authorization: `Bearer ${token}` } }
             );
-            onProfileUpdate(res.data); // Update parent component's state
-            onClose(); // Close modal
+            onProfileUpdate(res.data);
+            toast.success('Profile updated successfully!', { id: toastId });
+            onClose();
         } catch (err) {
+            toast.error('Failed to update profile.', { id: toastId });
             console.error("Failed to update profile", err);
-            alert("Failed to update profile.");
         }
     };
 
@@ -30,16 +33,26 @@ const EditProfileModal = ({ user, onClose, onProfileUpdate }) => {
                 <h2 className="text-2xl font-bold mb-4">Edit Profile</h2>
                 <form onSubmit={handleSubmit}>
                     <div className="mb-4">
-                        <label className="block mb-1 font-semibold">Name</label>
-                        <input type="text" value={name} onChange={(e) => setName(e.target.value)} className="w-full p-2 border rounded dark:bg-gray-700 dark:border-gray-600" />
+                        <label className="block mb-1 font-semibold dark:text-gray-300">Name</label>
+                        <input 
+                            type="text" 
+                            value={name} 
+                            onChange={(e) => setName(e.target.value)} 
+                            className="w-full p-2 border rounded dark:bg-gray-700 dark:border-gray-600" 
+                        />
                     </div>
                     <div className="mb-4">
-                        <label className="block mb-1 font-semibold">Bio</label>
-                        <textarea value={bio} onChange={(e) => setBio(e.target.value)} className="w-full p-2 border rounded dark:bg-gray-700 dark:border-gray-600" rows="4"></textarea>
+                        <label className="block mb-1 font-semibold dark:text-gray-300">Bio</label>
+                        <textarea 
+                            value={bio} 
+                            onChange={(e) => setBio(e.target.value)} 
+                            className="w-full p-2 border rounded dark:bg-gray-700 dark:border-gray-600" 
+                            rows="4"
+                        ></textarea>
                     </div>
                     <div className="flex justify-end space-x-4">
                         <button type="button" onClick={onClose} className="px-4 py-2 rounded bg-gray-300 dark:bg-gray-600 hover:bg-gray-400">Cancel</button>
-                        <button type="submit" className="px-4 py-2 rounded bg-blue-500 text-white hover:bg-blue-600">Save</button>
+                        <button type="submit" className="px-4 py-2 rounded bg-blue-500 text-white hover:bg-blue-600">Save Changes</button>
                     </div>
                 </form>
             </div>

@@ -2,16 +2,16 @@ import express from 'express';
 import {
     getUserProfile,
     updateUserProfile,
-    changePassword
+    changePassword,
+    searchUsers
 } from '../controllers/userController.js';
 import protect from '../middleware/authMiddleware.js';
 
 const router = express.Router();
 
-// Public route to get a user profile
+router.get('/search', searchUsers); // Search route must be before '/:id'
 router.get('/:id', getUserProfile);
 
-// Protected routes for editing
 router.put('/profile', protect, updateUserProfile);
 router.put('/change-password', protect, changePassword);
 

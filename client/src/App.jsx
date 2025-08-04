@@ -1,15 +1,16 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { Toaster } from 'react-hot-toast'; // Import Toaster
 import Navbar from './components/Navbar';
 import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import ProfilePage from './pages/ProfilePage';
-import { jwtDecode } from 'jwt-decode';
 
 function App() {
   return (
     <Router>
+      <Toaster position="top-center" reverseOrder={false} /> {/* Add Toaster component */}
       <Navbar />
       <main className="container mx-auto px-4 py-8">
         <Routes>
@@ -22,4 +23,5 @@ function App() {
     </Router>
   );
 }
+
 export default App;
