@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 
 const API_URL = import.meta.env.VITE_API_URL;
 const CLOUDINARY_UPLOAD_PRESET = 'ciaan_preset';
-const CLOUDINARY_CLOUD_NAME = 'your_cloud_name';
+const CLOUDINARY_CLOUD_NAME = 'dbd736mdi';
 
 const HomePage = () => {
     const [posts, setPosts] = useState([]);
