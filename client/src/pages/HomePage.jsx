@@ -38,7 +38,6 @@ const HomePage = () => {
 
     return (
         <>
-            {/* The Floating Action Button for creating a post */}
             {token && (
                 <button
                     onClick={() => setIsModalOpen(true)}
@@ -49,7 +48,6 @@ const HomePage = () => {
                 </button>
             )}
 
-            {/* The Modal for creating a post, which is shown conditionally */}
             {isModalOpen && <CreatePostModal onClose={() => setIsModalOpen(false)} onPostCreated={handlePostCreated} />}
 
             <div>
@@ -60,8 +58,9 @@ const HomePage = () => {
                     ) : posts.length > 0 ? (
                         posts.map(post => <PostCard key={post._id} post={post} />)
                     ) : (
-                        <div className="text-center text-gray-500 mt-10">
-                            <p>No posts yet. Be the first to share something!</p>
+                        <div className="text-center text-gray-500 dark:text-gray-400 mt-16 p-8 bg-white dark:bg-gray-900 rounded-lg shadow-md">
+                            <h2 className="text-2xl font-semibold mb-2">It's quiet in here...</h2>
+                            <p>No posts have been made yet. Log in or register to be the first to share something!</p>
                         </div>
                     )}
                 </div>
