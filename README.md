@@ -1,7 +1,7 @@
 # linkedin-dummy
 
 Mini LinkedIn-like Community Platform
-A full-stack social community platform built for the CIAAN Cyber Tech Pvt Ltd Full Stack Development Internship assessment. This application allows users to register, create posts with text and images, and interact with content from other users in a clean, modern, and responsive interface.
+A full-stack social community platform . This application allows users to register, create posts with text and images, and interact with content from other users in a clean, modern, and responsive interface.
 
 Live Demo: [https://linkedin-dummy.vercel.app](https://linkedin-dummy.vercel.app/)
 
